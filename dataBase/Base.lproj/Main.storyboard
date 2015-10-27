@@ -16,6 +16,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oUp-0w-svq">
+                                <rect key="frame" x="-25" y="-30" width="97" height="30"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="20" y="28" width="360" height="30"/>
+                                </variation>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="tR5-wc-mhj"/>
+                                </connections>
+                            </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Cb2-5F-Rbh">
                                 <rect key="frame" x="-25" y="-30" width="97" height="30"/>
                                 <animations/>
@@ -24,6 +36,9 @@
                                 <variation key="widthClass=compact" fixedFrame="YES">
                                     <rect key="frame" x="20" y="86" width="360" height="30"/>
                                 </variation>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="052-91-6Bp"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Age" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rxk-7g-YV9">
                                 <rect key="frame" x="-25" y="-30" width="97" height="30"/>
@@ -33,34 +48,49 @@
                                 <variation key="widthClass=compact" fixedFrame="YES">
                                     <rect key="frame" x="20" y="144" width="97" height="30"/>
                                 </variation>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Qqp-SD-uET"/>
+                                </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oUp-0w-svq">
-                                <rect key="frame" x="-25" y="-30" width="97" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i9d-be-Irb">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <color key="backgroundColor" red="0.39124128609999997" green="0.55398212570000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Save">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                </state>
                                 <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="20" y="28" width="360" height="30"/>
+                                    <rect key="frame" x="166" y="236" width="68" height="30"/>
                                 </variation>
-                            </textField>
+                                <connections>
+                                    <action selector="saveDate:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Y8E-1F-Ufa"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <variation key="default">
                             <mask key="subviews">
+                                <exclude reference="oUp-0w-svq"/>
                                 <exclude reference="Cb2-5F-Rbh"/>
                                 <exclude reference="Rxk-7g-YV9"/>
-                                <exclude reference="oUp-0w-svq"/>
+                                <exclude reference="i9d-be-Irb"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
                             <mask key="subviews">
+                                <include reference="oUp-0w-svq"/>
                                 <include reference="Cb2-5F-Rbh"/>
                                 <include reference="Rxk-7g-YV9"/>
-                                <include reference="oUp-0w-svq"/>
+                                <include reference="i9d-be-Irb"/>
                             </mask>
                         </variation>
                     </view>
+                    <connections>
+                        <outlet property="age" destination="Rxk-7g-YV9" id="IH0-yG-s0w"/>
+                        <outlet property="firstName" destination="oUp-0w-svq" id="3Jm-EJ-gRe"/>
+                        <outlet property="lastName" destination="Cb2-5F-Rbh" id="nWt-Za-Bfd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
