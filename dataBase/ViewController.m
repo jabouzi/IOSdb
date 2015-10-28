@@ -13,25 +13,27 @@
 @property (weak, nonatomic) IBOutlet UITextField *lastName;
 @property (weak, nonatomic) IBOutlet UITextField *age;
 @property (weak, nonatomic) IBOutlet UITextView *dbDump;
+@property (weak, nonatomic) IBOutlet UITextField *user_id;
 
 @end
 
 @implementation ViewController
 
-- (IBAction)saveDate:(id)sender {
-    [self copyText];
+- (IBAction)saveData:(id)sender {
+    [self saveUserData];
     [self.view endEditing:YES];
 }
-- (IBAction)createDB:(id)sender {
-    
-    [self.view endEditing:YES];
 
+- (IBAction)getUser:(id)sender {
+    [self searchUserById];
+    [self.view endEditing:YES];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.dbManager = [[DBManager alloc] initWithDatabaseFilename:@"users.db"];
-    // Do any additional setup after loading the view, typically from a nib.
+    NSString *query = @"select * from users";
+    NSLog(@"%@", [self.dbManager loadDataFromDB:query]);
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -41,20 +43,20 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [self copyText];
+    [self saveUserData];
     [textField resignFirstResponder];
     return YES;
 }
 
--(void)copyText
+-(void)saveUserData
 {
-    NSString* firstName = [self.firstName text];
+    NSString* firstName = [[self.firstName text] stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
     [[self firstName] resignFirstResponder];
     
-    NSString* lastName = [self.lastName text];
+    NSString* lastName = [[self.lastName text] stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
     [[self lastName] resignFirstResponder];
     
-    NSString* age = [self.age text];
+    NSString* age = [[self.age text] stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
     [[self age] resignFirstResponder];
     
     NSString *query = [NSString stringWithFormat:@"insert into users (firstname, lastname, age) values ('%@','%@', '%@');",firstName, lastName, age];
@@ -70,11 +72,25 @@
     else{
         NSLog(@"Could not execute the query.");
     }
+}
 
+- (void)searchUserById
+{
+    NSString* user_id = [[self.user_id text] stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
+    [[self firstName] resignFirstResponder];
     
-    query = @"select * from users";
-    NSLog(@"%@", [self.dbManager loadDataFromDB:query]);
-    self.dbDump.text = [NSString stringWithFormat:@"%@", [self.dbManager loadDataFromDB:query]];
+    if ([user_id length] > 0)
+    {
+        NSString *query = [NSString stringWithFormat:@"select * from users where id = '%@';", user_id];
+        NSLog(@"%@", query);
+        NSArray *results = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
+        if ([results count] > 0)
+        {
+            self.firstName.text = [[results objectAtIndex:0] objectAtIndex:[self.dbManager.arrColumnNames indexOfObject:@"firstname"]];
+            self.lastName.text = [[results objectAtIndex:0] objectAtIndex:[self.dbManager.arrColumnNames indexOfObject:@"lastname"]];
+            self.age.text = [[results objectAtIndex:0] objectAtIndex:[self.dbManager.arrColumnNames indexOfObject:@"age"]];
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {
