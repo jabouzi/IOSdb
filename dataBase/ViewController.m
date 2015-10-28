@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *firstName;
 @property (weak, nonatomic) IBOutlet UITextField *lastName;
 @property (weak, nonatomic) IBOutlet UITextField *age;
+@property (weak, nonatomic) IBOutlet UITextView *dbDump;
 
 @end
 
@@ -19,10 +20,17 @@
 
 - (IBAction)saveDate:(id)sender {
     [self copyText];
+    [self.view endEditing:YES];
+}
+- (IBAction)createDB:(id)sender {
+    
+    [self.view endEditing:YES];
+
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.dbManager = [[DBManager alloc] initWithDatabaseFilename:@"users.db"];
     // Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -40,16 +48,33 @@
 
 -(void)copyText
 {
-    /*NSString* firstName = [self.firstName text];
+    NSString* firstName = [self.firstName text];
     [[self firstName] resignFirstResponder];
     
     NSString* lastName = [self.lastName text];
     [[self lastName] resignFirstResponder];
     
     NSString* age = [self.age text];
-    [[self age] resignFirstResponder];*/
+    [[self age] resignFirstResponder];
+    
+    NSString *query = [NSString stringWithFormat:@"insert into users (firstname, lastname, age) values ('%@','%@', '%@');",firstName, lastName, age];
+    
+    NSLog(@"%@", query);
+    
+    [self.dbManager executeQuery:query];
+    
+    // If the query was successfully executed then pop the view controller.
+    if (self.dbManager.affectedRows != 0) {
+        NSLog(@"Query was executed successfully. Affected rows = %d", self.dbManager.affectedRows);
+    }
+    else{
+        NSLog(@"Could not execute the query.");
+    }
 
-    [self.view endEditing:YES];
+    
+    query = @"select * from users";
+    NSLog(@"%@", [self.dbManager loadDataFromDB:query]);
+    self.dbDump.text = [NSString stringWithFormat:@"%@", [self.dbManager loadDataFromDB:query]];
 }
 
 - (void)didReceiveMemoryWarning {

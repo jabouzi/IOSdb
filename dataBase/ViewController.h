@@ -1,3 +1,4 @@
+
 //
 //  ViewController.h
 //  dataBase
@@ -7,9 +8,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DBManager.h"
 
 @interface ViewController : UIViewController
 
+@property (nonatomic, strong) DBManager *dbManager;
 
 @end
 
